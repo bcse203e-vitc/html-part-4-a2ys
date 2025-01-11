@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Form</title>
+    <style>
+        .form-preview {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .field {
+            margin-bottom: 10px;
+        }
+
+        .field label {
+            display: block;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .draggable {
+            cursor: grab;
+        }
+
+        .draggable:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Customizable Form</h1>
+
+    <label for="form-name">Form Name:</label>
+    <input type="text" id="form-name" placeholder="Enter form name" oninput="updatePreview()">
+
+    <label for="num-fields">Number of Input Fields:</label>
+    <input type="number" id="num-fields" min="1" oninput="generateFields()">
+
+    <div id="fields-container"></div>
+
+    <button onclick="generatePreview()">Generate Preview</button>
+
+    <div class="form-preview" id="form-preview"></div>
+
+    <script>
+        let fields = [];
+
+        function generateFields() {
+            const numFields = document.getElementById('num-fields').value;
+            const container = document.getElementById('fields-container');
+            container.innerHTML = '';
+
+            for (let i = 0; i < numFields; i++) {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.classList.add('field');
+                fieldDiv.setAttribute('data-index', i);
+
+                fieldDiv.innerHTML = `
+          <label for="field-type-${i}">Field ${i + 1} Type:</label>
+          <select id="field-type-${i}" onchange="updatePreview()">
+            <option value="text">Text</option>
+            <option value="email">Email</option>
+            <option value="number">Number</option>
+            <option value="date">Date</option>
+          </select>
+          <label for="field-label-${i}">Field ${i + 1} Label:</label>
+          <input type="text" id="field-label-${i}" placeholder="Enter label" oninput="updatePreview()">
+        `;
+
+                container.appendChild(fieldDiv);
+            }
+        }
+
+        function updatePreview() {
+            const formName = document.getElementById('form-name').value;
+            const preview = document.getElementById('form-preview');
+            preview.innerHTML = `<h2>${formName}</h2>`;
+
+            const numFields = document.getElementById('num-fields').value;
+            for (let i = 0; i < numFields; i++) {
+                const label = document.getElementById(`field-label-${i}`).value;
+                const type = document.getElementById(`field-type-${i}`).value;
+
+                const fieldHTML = `
+          <div class="field">
+            <label>${label}</label>
+            <input type="${type}" />
+          </div>
+        `;
+                preview.innerHTML += fieldHTML;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const fieldsContainer = document.getElementById('fields-container');
+            fieldsContainer.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('field')) {
+                    e.target.classList.add('draggable');
+                    e.dataTransfer.setData('text/plain', e.target.dataset.index);
+                }
+            });
+
+            fieldsContainer.addEventListener('dragend', (e) => {
+                e.target.classList.remove('draggable');
+            });
+
+            fieldsContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            fieldsContainer.addEventListener('drop', (e) => {
+                const draggedIndex = e.dataTransfer.getData('text/plain');
+                const targetIndex = e.target.closest('.field') ? e.target.closest('.field').dataset.index : null;
+
+                if (targetIndex !== null && draggedIndex !== targetIndex) {
+                    const draggedElement = document.querySelector(`.field[data-index="${draggedIndex}"]`);
+                    const targetElement = document.querySelector(`.field[data-index="${targetIndex}"]`);
+
+                    fieldsContainer.insertBefore(draggedElement, targetElement);
+                    updateFieldIndexes();
+                }
+            });
+        });
+
+        function updateFieldIndexes() {
+            const allFields = document.querySelectorAll('.field');
+            allFields.forEach((field, index) => {
+                field.dataset.index = index;
+            });
+        }
+    </script>
+</body>
+
+</html>
