@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .radio-group {
+            margin-bottom: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #008CBA;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Travel Booking Form</h1>
+
+    <form>
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="contact">Contact Information:</label>
+        <input type="email" id="contact" name="contact" required>
+
+        <label for="destination">Destination:</label>
+        <select id="destination" name="destination">
+            <option value="Paris">Paris</option>
+            <option value="New York">New York</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="Sydney">Sydney</option>
+        </select>
+
+        <label for="travelDate">Travel Dates:</label>
+        <input type="date" id="travelDate" name="travelDate" required>
+
+        <label for="travelers">Number of Travelers:</label>
+        <input type="number" id="travelers" name="travelers" min="1" value="1" onchange="calculateCost()">
+
+        <label>Travel Class:</label>
+        <div class="radio-group">
+            <label><input type="radio" name="travelClass" value="Economy" checked onclick="calculateCost()"> Economy
+                ($100 per person)</label>
+            <label><input type="radio" name="travelClass" value="Business" onclick="calculateCost()"> Business ($200 per
+                person)</label>
+            <label><input type="radio" name="travelClass" value="First" onclick="calculateCost()"> First Class ($300 per
+                person)</label>
+        </div>
+
+        <label><input type="checkbox" id="insurance" name="insurance" onclick="calculateCost()"> Opt for Travel
+            Insurance ($50 total)</label>
+
+        <h3>Total Cost: $<span id="totalCost">0</span></h3>
+
+        <button type="submit">Book Now</button>
+    </form>
+
+    <script>
+        function calculateCost() {
+            const travelers = parseInt(document.getElementById('travelers').value) || 1;
+            const travelClass = document.querySelector('input[name="travelClass"]:checked').value;
+            const insurance = document.getElementById('insurance').checked;
+            let costPerPerson = travelClass === 'Economy' ? 100 : travelClass === 'Business' ? 200 : 300;
+            let totalCost = costPerPerson * travelers;
+            if (insurance) {
+                totalCost += 50;
+            }
+            document.getElementById('totalCost').textContent = totalCost.toFixed(2);
+        }
+    </script>
+
+</body>
+
+</html>

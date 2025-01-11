@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Survey Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            margin-bottom: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #008CBA;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Health Survey Form</h1>
+
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="0" required>
+
+        <label>Gender:</label>
+        <div class="radio-group">
+            <label><input type="radio" name="gender" value="Male" required> Male</label>
+            <label><input type="radio" name="gender" value="Female" required> Female</label>
+            <label><input type="radio" name="gender" value="Other" required> Other</label>
+        </div>
+
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" name="height" min="0" required>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" min="0" required>
+
+        <label>Lifestyle Questions:</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="lifestyle" value="Smoker"> Smoker</label>
+            <label><input type="checkbox" name="lifestyle" value="Alcohol"> Alcohol Consumption</label>
+            <label><input type="checkbox" name="lifestyle" value="Exercise"> Regular Exercise</label>
+            <label><input type="checkbox" name="lifestyle" value="BalancedDiet"> Balanced Diet</label>
+        </div>
+
+        <label for="dietary">Dietary Preference:</label>
+        <select id="dietary" name="dietary">
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Non-Vegetarian">Non-Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="activity">Activity Level:</label>
+        <select id="activity" name="activity">
+            <option value="Sedentary">Sedentary</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Active">Active</option>
+        </select>
+
+        <label for="healthConcerns">Optional Health Concerns:</label>
+        <textarea id="healthConcerns" name="healthConcerns" rows="4"
+            placeholder="List any health concerns..."></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+
+</html>
